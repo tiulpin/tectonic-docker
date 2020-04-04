@@ -1,3 +1,4 @@
+# builder definition
 FROM rust:latest as builder
 
 RUN apt-get update && apt-get install -y libfontconfig1-dev libgraphite2-dev libharfbuzz-dev libicu-dev zlib1g-dev
