@@ -21,7 +21,7 @@ RUN for f in *.tex; do tectonic $f; done
 # use a lightweight debian - no need for whole rust environment
 FROM debian:stretch-slim 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libfontconfig1 libgraphite2-3 libharfbuzz0b zlib1g libharfbuzz-icu0 libssl1.1 ca-certificates curl jq  
+    && apt-get install -y --no-install-recommends libfontconfig1 libgraphite2-3 libharfbuzz0b zlib1g libharfbuzz-icu0 libssl1.1 ca-certificates curl jq fonts-font-awesome 
 
 COPY --from=builder /usr/lib/x86_64-linux-gnu/libicu* /usr/lib/x86_64-linux-gnu/
 # copy tectonic binary to new image
