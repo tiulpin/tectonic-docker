@@ -1,15 +1,11 @@
-![docker pulls](https://img.shields.io/docker/pulls/dxjoke/tectonic-docker.svg)
-# Docker Tectonic with Biber 
+# 🐳 Tectonic with Biber 
 A tiny docker image with a working [tectonic latex
-engine](https://tectonic-typesetting.github.io/en-US/index.html) and [biber](https://github.com/plk/biblatex) with a primed cache.
-
-* Visit my page on docker hub at: https://hub.docker.com/r/dxjoke/tectonic-docker/
-* Visit my page on github at: https://github.com/WtfJoke/tectonic-docker
+engine](https://tectonic-typesetting.github.io/en-US/index.html) and [biber](https://github.com/plk/biblatex) with a primed cache + font-awesome for moderncv LaTeX compatibility.
 
 
 ## Getting the image
 ```
-docker pull dxjoke/tectonic-docker
+docker pull tiulpin/tectonic-docker
 ```
 
 Only **~75MB** compressed.
@@ -24,7 +20,7 @@ pdf builds.
 
 ```yaml
 pdf:
-  image: dxjoke/tectonic-docker
+  image: tiulpin/tectonic-docker
   script:
     - tectonic --keep-intermediates --reruns 0 main.tex
     - biber main
@@ -39,7 +35,7 @@ In case you dont need biber, you simply ommit the first two script calls. Eg.
 
 ```yaml
 pdf:
-  image: dxjoke/tectonic-docker
+  image: tiulpin/tectonic-docker
   script:
     - tectonic main.tex
   artifacts:
@@ -58,7 +54,7 @@ services:
   - docker
 
 script:
- - docker run --mount src=$TRAVIS_BUILD_DIR,target=/usr/src/tex,type=bind dxjoke/tectonic-docker
+ - docker run --mount src=$TRAVIS_BUILD_DIR,target=/usr/src/tex,type=bind tiulpin/tectonic-docker
   /bin/sh -c "tectonic --keep-intermediates --reruns 0 main.tex; biber main; tectonic main.tex"
 ```
 
@@ -71,7 +67,7 @@ services:
   - docker
 
 script:
- - docker run --mount src=$TRAVIS_BUILD_DIR,target=/usr/src/tex,type=bind dxjoke/tectonic-docker
+ - docker run --mount src=$TRAVIS_BUILD_DIR,target=/usr/src/tex,type=bind tiulpin/tectonic-docker
   /bin/sh -c "tectonic main.tex"
 ```
 
@@ -81,13 +77,8 @@ After building tectonic, it is run on the tex files in this repo to
 download all the common files from the tectonic bundle. These files are bundled in the docker image
 
 ## Running locally
-On windows:
 
-`docker run -it -v c:/mytex/folder/thesis:/data dxjoke/tectonic-docker`
-
-On linux:
-
-`docker run -it -v /home/user/mytex/folder/thesis:/data dxjoke/tectonic-docker`
+`docker run -it -v /home/user/mytex/folder/thesis:/data tiulpin/tectonic-docker`
 
 Afterwards you can cd into /data and run tectonic/biber as you wish.
 Eg:
