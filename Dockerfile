@@ -1,7 +1,8 @@
 # builder definition
 FROM rust:latest as builder
 
-RUN apt-get update && apt-get install -y libfontconfig1-dev libgraphite2-dev libharfbuzz-dev libicu-dev zlib1g-dev
+RUN apt-get update \
+    && apt-get install -y libfontconfig1-dev libgraphite2-dev libharfbuzz-dev libicu-dev zlib1g-dev fonts-font-awesome fonts-texgyre
 RUN cargo install tectonic --force --vers 0.1.12
 
 WORKDIR /usr/src/tex
