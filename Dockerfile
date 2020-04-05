@@ -10,26 +10,22 @@ RUN tar -xvzf biber-linux_x86_64.tar.gz
 RUN chmod +x biber
 RUN cp biber /usr/bin/biber
 
-COPY *.tex ./
-COPY *.bib ./
+COPY tex/ ./
 # first run - keep files for biber
 RUN tectonic --keep-intermediates --reruns 0 main.tex
-# do the biber
 RUN biber main
 # one last tectonic run over all files
 RUN for f in *.tex; do tectonic $f; done
 
-# use a lightweight debian - no need for whole rust environment
+# use a lightweight debian - no need for the whole rust environment
 FROM debian:stretch-slim 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libfontconfig1 libgraphite2-3 libharfbuzz0b zlib1g libharfbuzz-icu0 libssl1.1 ca-certificates curl jq fonts-font-awesome fonts-texgyre 
 
+# reuse tectonic binary, cache and biber
 COPY --from=builder /usr/lib/x86_64-linux-gnu/libicu* /usr/lib/x86_64-linux-gnu/
-# copy tectonic binary to new image
 COPY --from=builder /usr/local/cargo/bin/tectonic /usr/bin/
-# reuse tectonic cache from compiling tex files
 COPY --from=builder /root/.cache/Tectonic/ /root/.cache/Tectonic/
-# copy biber binary to new image
 COPY --from=builder /usr/bin/biber /usr/bin/ 
 
-WORKDIR /usr/src/tex
+WORKDIR /data
